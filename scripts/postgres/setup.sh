@@ -2,18 +2,33 @@
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-cd "$SCRIPT_DIR"
+ROOT_DIR="$(cd "$SCRIPT_DIR/../.." && pwd)"
+ENV_FILE="$ROOT_DIR/.env"
+
+set -a; source "$ENV_FILE"; set +a
 
 echo "[postgres] Starting PostgreSQL standalone server..."
 
-if ! command -v docker &>/dev/null; then
-  echo "[postgres] ERROR: docker is not installed or not in PATH" >&2
+if ! docker info > /dev/null 2>&1; then
+  echo "[postgres] ERROR: Docker is not running." >&2
   exit 1
 fi
 
-docker compose --env-file ../../.env up -d --pull always
+cd "$SCRIPT_DIR"
+docker compose --env-file "$ENV_FILE" up -d --pull always
+
+echo "[postgres] Waiting for PostgreSQL to be ready..."
+RETRIES=30
+until docker exec "${POSTGRES_CONTAINER}" pg_isready -h 127.0.0.1 -U "${POSTGRES_USER}" -q 2>/dev/null; do
+  RETRIES=$((RETRIES - 1))
+  if [ "$RETRIES" -eq 0 ]; then
+    echo "[postgres] ERROR: PostgreSQL did not become ready in time." >&2
+    exit 1
+  fi
+  sleep 2
+done
 
 echo "[postgres] PostgreSQL is up."
-echo "[postgres] Host port : $(grep '^POSTGRES_PORT=' ../../.env | cut -d= -f2 | cut -d: -f1)"
-echo "[postgres] User      : $(grep '^POSTGRES_USER=' ../../.env | cut -d= -f2)"
-echo "[postgres] Connect   : psql -h 127.0.0.1 -p $(grep '^POSTGRES_PORT=' ../../.env | cut -d= -f2 | cut -d: -f1) -U $(grep '^POSTGRES_USER=' ../../.env | cut -d= -f2)"
+echo "[postgres]   Host:    127.0.0.1:${POSTGRES_PORT%%:*}"
+echo "[postgres]   User:    ${POSTGRES_USER}"
+echo "[postgres]   Connect: psql -h 127.0.0.1 -p ${POSTGRES_PORT%%:*} -U ${POSTGRES_USER}"

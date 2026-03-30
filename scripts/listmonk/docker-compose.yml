@@ -1,0 +1,26 @@
+services:
+  listmonk:
+    image: ${LISTMONK_IMAGE}
+    container_name: ${LISTMONK_CONTAINER}
+    restart: ${LISTMONK_RESTART}
+    ports:
+      - "${LISTMONK_PORT}"
+    command: [sh, -c, "./listmonk --install --idempotent --yes --config '' && ./listmonk --upgrade --yes --config '' && ./listmonk --config ''"]
+    environment:
+      LISTMONK_app__address: "0.0.0.0:9000"
+      LISTMONK_db__host: ${LISTMONK_DB_HOST}
+      LISTMONK_db__port: ${LISTMONK_DB_PORT}
+      LISTMONK_db__user: ${LISTMONK_DB_USER}
+      LISTMONK_db__password: ${LISTMONK_DB_PASSWORD}
+      LISTMONK_db__database: ${LISTMONK_DB_NAME}
+      LISTMONK_db__ssl_mode: disable
+      LISTMONK_db__max_open: 25
+      LISTMONK_db__max_idle: 25
+      LISTMONK_db__max_lifetime: 300s
+      LISTMONK_ADMIN_USER: ${LISTMONK_ADMIN_USER}
+      LISTMONK_ADMIN_PASSWORD: ${LISTMONK_ADMIN_PASSWORD}
+      TZ: Etc/UTC
+    volumes:
+      - ./volumes/uploads:/listmonk/uploads:rw
+    extra_hosts:
+      - "host.docker.internal:host-gateway"

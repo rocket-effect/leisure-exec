@@ -1,7 +1,7 @@
 services:
   mysql:
     image: ${MYSQL_IMAGE}
-    container_name: mysql
+    container_name: ${MYSQL_CONTAINER}
     restart: ${MYSQL_RESTART}
     ports:
       - "${MYSQL_PORT}"

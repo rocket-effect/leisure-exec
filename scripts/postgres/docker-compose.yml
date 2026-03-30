@@ -1,15 +1,14 @@
 services:
   postgres:
     image: ${POSTGRES_IMAGE}
-    container_name: postgres
+    container_name: ${POSTGRES_CONTAINER}
     restart: ${POSTGRES_RESTART}
     ports:
       - "${POSTGRES_PORT}"
     environment:
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-      POSTGRES_HOST_AUTH_METHOD: scram-sha-256
-      POSTGRES_INITDB_ARGS: "--auth-host=scram-sha-256"
+      POSTGRES_HOST_AUTH_METHOD: md5
     volumes:
       - ./volumes/data:/var/lib/postgresql/data
     healthcheck:
