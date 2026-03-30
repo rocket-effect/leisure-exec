@@ -24,5 +24,8 @@ logs/
 # Platform data volumes (local bind-mounts, never commit DB data)
 scripts/*/volumes
 
+# Cloned third-party repos
+scripts/rss-feed-builder/repo
+
 # Node
 node_modules/
