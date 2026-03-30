@@ -62,7 +62,7 @@ echo ""
 if [[ $DRY_RUN -eq 1 ]]; then
   idx=0
   for platform in "${PLATFORMS[@]}"; do
-    (( idx++ ))
+    (( ++idx ))
     setup="${SCRIPTS_DIR}/${platform}/setup.sh"
     rollback="${SCRIPTS_DIR}/${platform}/rollback.sh"
     compose="${SCRIPTS_DIR}/${platform}/docker-compose.yml"
@@ -103,7 +103,7 @@ trap 'echo ""; echo "Interrupted."; _rollback "SIGINT"; exit 130' INT
 # ── Run platforms ──────────────────────────────────────────────────────────────
 idx=0
 for platform in "${PLATFORMS[@]}"; do
-  (( idx++ ))
+  (( ++idx ))
   setup="${SCRIPTS_DIR}/${platform}/setup.sh"
 
   echo "------------------------------------------------------"
