@@ -25,7 +25,7 @@ else
     echo "[rss-feed-builder] ERROR: GITHUB_TOKEN is not set in ${ENV_FILE}." >&2
     exit 1
   fi
-  echo "[rss-feed-builder] Cloning ${REPO_URL}..."
+  echo "[rss-feed-builder] Cloning"
   git clone "https://${GITHUB_TOKEN}@github.com/rocket-effect/rss-feed-builder.git" "${REPO_DIR}"
 fi
 
