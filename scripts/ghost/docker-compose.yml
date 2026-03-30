@@ -1,0 +1,20 @@
+services:
+
+  ghost:
+    image: ${GHOST_IMAGE}
+    container_name: ${GHOST_CONTAINER}
+    restart: ${GHOST_RESTART}
+    ports:
+      - "${GHOST_PORT}"
+    environment:
+      database__client: mysql
+      database__connection__host: ${GHOST_DB_HOST}
+      database__connection__port: ${GHOST_DB_PORT}
+      database__connection__user: ${GHOST_DB_USER}
+      database__connection__password: ${GHOST_DB_PASSWORD}
+      database__connection__database: ${GHOST_DB_NAME}
+      url: ${GHOST_URL}
+    volumes:
+      - ./volumes/content:/var/lib/ghost/content
+    extra_hosts:
+      - "host.docker.internal:host-gateway"

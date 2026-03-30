@@ -1,0 +1,13 @@
+# Auto-generated: do not hand-edit values here — edit root .env instead.
+# All variables come from the root .env loaded via --env-file.
+services:
+
+  claudecode:
+    image: ${CLAUDECODE_IMAGE}
+    container_name: ${CLAUDECODE_CONTAINER}
+    command: ${CLAUDECODE_COMMAND}
+    restart: ${CLAUDECODE_RESTART}
+    user: "${CLAUDECODE_USER}"
+    ports:
+      - "${CLAUDECODE_PORT_APP}"
+      - "${CLAUDECODE_PORT_VITE}"

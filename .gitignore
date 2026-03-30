@@ -1,0 +1,28 @@
+# Environment files — NEVER commit these
+.env
+.env.local
+.env.*.local
+
+platforms.txt
+*.pem
+
+# Logs
+*.log
+logs/
+
+# macOS
+.DS_Store
+**/.DS_Store
+
+# Editor
+.vscode/settings.json
+.idea/
+
+# Docker
+.docker/
+
+# Platform data volumes (local bind-mounts, never commit DB data)
+scripts/*/volumes
+
+# Node
+node_modules/
