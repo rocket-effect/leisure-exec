@@ -47,5 +47,3 @@ cd "${DIR}"
 docker compose --env-file "${ENV_FILE}" up -d --pull always
 
 echo "[miniflux] Done."
-echo "[miniflux] URL: http://localhost:${MINIFLUX_PORT%%:*}"
-echo "[miniflux] Admin: ${MINIFLUX_ADMIN_USERNAME}"
