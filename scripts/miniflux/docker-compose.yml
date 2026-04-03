@@ -9,3 +9,5 @@ services:
       - CREATE_ADMIN=1
       - ADMIN_USERNAME=${MINIFLUX_ADMIN_USERNAME}
       - ADMIN_PASSWORD=${MINIFLUX_ADMIN_PASSWORD}
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
